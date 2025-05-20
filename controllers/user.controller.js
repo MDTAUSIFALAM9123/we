@@ -11,6 +11,16 @@ export async function register(req, res) {
     })
   }
 
+  const checkUser = await UserModel.findOne({ email: email });
+
+  if (checkUser) {
+    return res.json({
+      message: "Already registered please login",
+      success: false,
+      error: true
+    })
+  }
+
   const newUser = await new UserModel({
     name: name,
     email: email,
@@ -26,6 +36,7 @@ export async function register(req, res) {
       error: true
     })
   }
+  
 
   return res.status(200).json({
     message: "User registered successfully",
